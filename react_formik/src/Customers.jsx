@@ -30,7 +30,6 @@ function Customers({ toggle }) {
   return (
     <div>
         <div className="fullShadow">
-        
         <Formik
             initialValues={getAddCustomerInitialValues()}
             enableReinitialize
