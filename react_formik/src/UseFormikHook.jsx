@@ -1,10 +1,18 @@
-import { Field, Form, Formik } from "formik";
+import { useFormik } from "formik";
 import React, { useState } from "react";
 import './index.css';
 
-function Customers() {
+function UseFormmikHook() {
     let allCountries = ["Bangladesh","Saudi Arabia", "Palestine", "Iraq", "Turkey", "Afganistan", "Pakistan"];
     const [isEditMode, setIsEditMode] = useState(false)
+    
+    const formik = useFormik({
+        initialValues: getAddCustomerInitialValues(),
+        enableReinitialize:true,
+        onSubmit: values => {
+          alert(JSON.stringify(values, null, 2));
+        },
+      });
 
   function getAddCustomerInitialValues() {
     if (isEditMode) {
@@ -29,33 +37,31 @@ function Customers() {
   
   return (
     <div>
-        
         <div className="fullShadow">
-        <a href="/use-formik-hook">Use Formik Hook</a>
-        <Formik
-            initialValues={getAddCustomerInitialValues()}
-            enableReinitialize
-            onSubmit={(values) => {
-                console.log(values);
-            }}>
-            <Form>
+            <a href="/">Use Formik TAG</a>
+       
+            <form onSubmit={formik.handleSubmit}>
                 <div className="customerFormBg">
                     <div className="form-outline" style={{ width: "100%", float: "left", padding: "0px 10px" }}>
                         <label className="form-custom-label">Customer Name</label>
-                        <Field
+                        <input
                         type="text"
+                        id="name"
                         name="name"
-                        placeholder="Customer Name"
                         className="form-control form-control-lg"
+                        onChange={formik.handleChange}
+                        value={formik.values.name}
                         />
                     </div>
 
                     <div className="form-outline" style={{ width: "50%", float: "left", padding: "0px 10px" }}>
                         <label className="form-custom-label">Country: </label>
-                        <Field
-                        as="select"
+                        <select
+                        id="country"
                         name="country"
                         className="select form-control-lg"
+                        onChange={formik.handleChange}
+                        value={formik.values.country}
                         style={{ width: "100%" }}>
                         {allCountries &&
                             allCountries.map((c, index) => (
@@ -63,35 +69,42 @@ function Customers() {
                                 {c}
                             </option>
                             ))}
-                        </Field>
+                        </select>
                     </div>
                     
                     <div className="form-outline" style={{ width: "100%", float: "left", padding: "0px 10px" }}>
                         <label className="form-custom-label">Address: </label>
-                        <Field
+                        <input
                         as="textarea"
+                        id="address"
                         name="address"
+                        onChange={formik.handleChange}
+                        value={formik.values.address}
                         className="select form-control-lg"
                         style={{ width: "100%" }}
                         />
                     </div>
                     <div className="form-outline" style={{ width: "50%", float: "right", padding: "0px 10px" }}>
                         <label className="form-custom-label">Phone</label>
-                        <Field
+                        <input
                         type="text"
+                        id="phone"
                         name="phone"
-                        placeholder="Phone"
                         className="form-control form-control-lg"
+                        onChange={formik.handleChange}
+                        value={formik.values.phone}
                         />
                     </div>
 
                     <div className="form-outline" style={{ width: "50%", float: "left", padding: "0px 10px" }}>
                         <label className="form-custom-label">Whatsapp</label>
-                        <Field
+                        <input
                         type="text"
+                        id="whatsapp"
                         name="whatsapp"
-                        placeholder="WhatsApp"
                         className="form-control form-control-lg"
+                        onChange={formik.handleChange}
+                        value={formik.values.whatsapp}
                         />
                     </div>
 
@@ -100,25 +113,23 @@ function Customers() {
                         style={{ width: "20%" }}
                         className="btn btn-primary btn-lg"
                         type="submit">
-                        Add User
+                            Add User
                         </button>
                         <button
+                            type="button"
                             style={{ width: "30%", marginLeft: "30px" }}
                             className="btn btn-primary btn-lg"
                             onClick={()=>{
                                 setIsEditMode(true);
                             }}>
-                            Edit Previous User
+                                Edit Previous User
                         </button>
                     </div>
                 </div>
-                </Form>
-            </Formik>
+            </form>
         </div>
-
-        
     </div>
   );
 }
 
-export default Customers;
+export default UseFormmikHook;
